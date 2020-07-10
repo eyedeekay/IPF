@@ -1,0 +1,4 @@
+#! /bin/sh
+
+lb clean noauto --all --cache
+rm -rfv config

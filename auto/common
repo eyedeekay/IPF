@@ -1,0 +1,16 @@
+#! /bin/sh
+
+LONG_NAME=""
+SHORT_NAME="ipf"
+BASE_DISTRO="sid"
+PARENT_DISTRO="sid"
+VERSION="0.0.1"
+#DEBIAN_MIRROR="http://deb.devuan.org/merged/"
+DEBIAN_MIRROR="http://deb.debian.org/debian/"
+TOR_APT_LINE="deb http://deb.torproject.org/torproject.org $BASE_DISTRO main
+deb-src http://deb.torproject.org/torproject.org $BASE_DISTRO main"
+TOR_APT_KEY="https://deb.torproject.org/torproject.org/A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89.asc"
+I2P_APT_LINE="deb http://deb.i2p2.de/ $BASE_DISTRO main
+deb-src http://deb.i2p2.de/ $BASE_DISTRO main"
+I2P_APT_KEY="https://geti2p.net/_static/i2p-debian-repo.key.asc"
+

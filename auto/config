@@ -1,0 +1,55 @@
+#! /bin/bash
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
+. $DIR/common
+
+lb config noauto \
+	--apt-http-proxy "http://127.0.0.1:3142" \
+    --debian-installer live \
+    --debian-installer-distribution daily \
+    --debian-installer-gui true \
+    --color \
+    --debootstrap-options --include="ca-certificates" \
+	--system live \
+	--architectures amd64 \
+	--binary-images iso-hybrid \
+	--apt-secure true \
+	--apt apt \
+	--build-with-chroot true \
+	--distribution $BASE_DISTRO \
+	--parent-distribution $PARENT_DISTRO \
+	--source false \
+	--apt-source-archives true \
+	--initsystem runit \
+	--updates false \
+	--security false \
+	--iso-application "Invisible People's Front!" \
+	--iso-publisher "eyedeekay<hankhill19580@gmail.com>" \
+	--image-name $SHORT_NAME-$BASE_DISTRO-live-$VERSION.iso \
+	--parent-mirror-chroot $DEBIAN_MIRROR \
+	--mirror-chroot $DEBIAN_MIRROR \
+	--parent-mirror-binary $DEBIAN_MIRROR \
+	--mirror-binary $DEBIAN_MIRROR \
+	--parent-mirror-debian-installer http://deb.debian.org/debian/ \
+	--mirror-debian-installer http://deb.debian.org/debian/ \
+     "${@}" || exit 1
+
+
+echo "deb $DEBIAN_MIRROR stable main
+deb-src $DEBIAN_MIRROR stable main" | tee config/archives/stable.list.chroot | tee config/archives/stable.list.binary
+echo "$TOR_APT_LINE" | tee config/archives/tor.list.chroot | tee config/archives/tor.list.binary
+echo "$I2P_APT_LINE" | tee config/archives/i2p.list.chroot | tee config/archives/i2p.list.binary
+curl -s "$TOR_APT_KEY" | tee config/archives/tor.key.chroot | tee config/archives/tor.key.binary
+curl -s "$I2P_APT_KEY" | tee config/archives/i2p.key.chroot | tee config/archives/i2p.key.binary
+
+#	--parent-mirror-bootstrap $DEBIAN_MIRROR \
+#	--mirror-bootstrap $DEBIAN_MIRROR \
+
+
+
+sed -i 's|systemd|sysvinit|g' config/package-lists/live.list.chroot
+
+cat $DIR/packages | sort | tee config/package-lists/basic.list.chroot #| tee config/package-lists/basic.list.binary
+cp config/package-lists/basic.list.chroot $DIR/packages
+

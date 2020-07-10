@@ -1,0 +1,9 @@
+*.iso
+*.zsync
+*.packages
+*.contents
+*.live
+cache
+chroot
+binary
+local

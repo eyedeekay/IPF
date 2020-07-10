@@ -1,0 +1,11 @@
+[Image]
+Architecture: amd64
+Archive-Areas: main
+Distribution-Chroot: sid
+Distribution-Binary: sid
+Mirror-Bootstrap: http://deb.debian.org/debian/
+
+[FIXME]
+Configuration-Version: 1:20191221
+Name: ipf-sid-live-0.0.1.iso
+Type: iso-hybrid
